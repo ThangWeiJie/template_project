@@ -8,6 +8,10 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenResolv
 public class CookieBearerTokenResolver implements BearerTokenResolver {
     @Override
     public @Nullable String resolve(HttpServletRequest request) {
+        if (request.getRequestURI().equals("/login")) {
+            return null;
+        }
+
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if (JWTConfiguration.TokenName.equals(cookie.getName())) {
@@ -15,6 +19,6 @@ public class CookieBearerTokenResolver implements BearerTokenResolver {
                 }
             }
         }
-        return "";
+        return null;
     }
 }
